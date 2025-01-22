@@ -119,7 +119,7 @@
 
       <div class="text-center text-gray-600 dark:text-gray-400 text-sm">
         <p>
-          &copy; {{ new Date().getFullYear() }} - Jérémy Albrecht - <a class="font-medium text-blue-600 underline dark:text-blue-500 hover:no-underline" href="https://github.com/jeremyalbrecht/">Source code</a>
+          &copy; {{ new Date().getFullYear() }} - Jérémy Albrecht - <a class="font-medium text-blue-600 underline dark:text-blue-500 hover:no-underline" href="https://github.com/jeremyalbrecht/ansible-vault-web-ui">Source code</a>
         </p>
       </div>
     </div>
