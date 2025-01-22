@@ -15,8 +15,8 @@
         </button>
       </div>
 
-      <div class="text-center mb-8 flex items-center">
-        <div class="ml-10 h-24 w-24 shrink-0">
+      <div class="text-center mb-8 flex flex-col md:flex-row items-center">
+        <div class="ml-10 h-24 w-24 shrink-0 mb-4 md:mb-0">
           <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" fill="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><title>file_type_ansible</title><path d="M16,29.951a13.952,13.952,0,1,1,.193-27.9A13.951,13.951,0,0,1,16,29.951Zm-2.221-13.13c.1.1.1.1.193.1C16,18.559,18.027,20.1,19.958,21.745a10.928,10.928,0,0,0,1.255.965.99.99,0,0,0,1.545-.676,1.643,1.643,0,0,0-.1-.676L18.9,12.38c-.579-1.352-1.159-2.8-1.738-4.151a.87.87,0,0,0-.579-.579c-.579-.193-.965.1-1.255.676-2.027,4.731-3.958,9.558-5.986,14.289,0,.1-.1.193-.1.29h1.931c.193,0,.193-.1.29-.193.386-.869.676-1.834,1.062-2.7A31.234,31.234,0,0,1,13.779,16.821Z"></path><path d="M13.779,16.821c-.386,1.062-.869,2.124-1.255,3.186-.386.869-.772,1.834-1.062,2.7a.355.355,0,0,1-.29.1H9.242c0-.1.1-.193.1-.29,2.027-4.731,3.958-9.558,5.986-14.289.29-.579.676-.869,1.255-.676a.87.87,0,0,1,.579.579c.579,1.352,1.159,2.8,1.738,4.151l3.765,8.979a2.978,2.978,0,0,1,.1.869.99.99,0,0,1-1.545.676,14.191,14.191,0,0,1-1.255-.965c-2.027-1.641-4.055-3.186-5.986-4.827C13.876,16.821,13.876,16.821,13.779,16.821Zm2.51-6.275c-.579,1.545-1.159,2.993-1.834,4.441-.1.1,0,.193.1.29C16,16.435,17.448,17.5,18.9,18.656c.29.193.579.483.869.676h0C18.607,16.435,17.448,13.539,16.29,10.546Z" style="fill:#fff"></path><path d="M16.29,10.546c1.159,2.993,2.414,5.889,3.572,8.786h0c-.29-.193-.579-.483-.869-.676-1.448-1.159-2.9-2.221-4.344-3.379-.1-.1-.193-.1-.1-.29C15.035,13.539,15.614,12.091,16.29,10.546Z"></path></g></svg>
         </div>
         <div class="flex-1">
@@ -90,7 +90,7 @@
 
       <div class="mb-10 text-center space-y-6">
         <h2 class="text-xl font-semibold text-gray-700 dark:text-gray-300">Why choose this tool?</h2>
-        <div class="flex justify-center items-center gap-6">
+        <div class="flex flex-col md:flex-row justify-center items-center gap-6">
           <div class="flex flex-col items-center">
             <svg viewBox="0 0 24 24" class="w-20 h-20" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M18.5221 18.5208C17.9141 18.8274 17.2272 19 16.5 19L8.4 19C5.41766 19 3 16.6044 3 13.6493C3 11.2001 4.8 8.9375 7.5 8.5C7.59659 8.27034 7.70825 8.04754 7.83373 7.83303M10.9021 5.30015C11.4635 5.10615 12.0645 5 12.6893 5C15.684 5 18.1317 7.32251 18.3 10.25C19.8893 10.9449 21 12.6503 21 14.4969C21 14.7799 20.9739 15.0568 20.924 15.3253M3 3L21 21" stroke="#fbe7ef" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
             <p class="text-gray-600 dark:text-gray-400 text-sm mt-2">
@@ -132,14 +132,11 @@ import {useToast} from "vue-toastification";
 
 export default {
   name: "App",
-  head: {
-    title: 'Ansible Vault Encrypt/Decrypt',
-    meta: [
-      {
-        name: 'description',
-        content: 'Web UI to encrypt and decrypt secrets using Ansible Vault.',
-      },
-    ],
+  beforeMount() {
+    document.documentElement.classList.toggle(
+        'dark',
+        localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)
+    )
   },
   data() {
     return {
@@ -148,7 +145,7 @@ export default {
       output: "",
       action: "Encrypt/Decrypt",
       copyAnimation: false,
-      isDarkMode: false,
+      isDarkMode: localStorage.getItem('theme') === 'dark',
     };
   },
   watch: {
@@ -164,12 +161,16 @@ export default {
   },
   methods: {
     toggleDarkMode() {
-      this.isDarkMode = !this.isDarkMode;
       if (this.isDarkMode) {
-        document.documentElement.classList.add("dark");
+        localStorage.theme = 'light'
       } else {
-        document.documentElement.classList.remove("dark");
+        localStorage.theme = 'dark'
       }
+      this.isDarkMode = !this.isDarkMode;
+      document.documentElement.classList.toggle(
+          'dark',
+          localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)
+      )
     },
     async performCryptographicOperation(text) {
       const toast = useToast();
