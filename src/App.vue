@@ -72,7 +72,7 @@
           </button>
         </div>
         <div v-if="output" class="mt-6">
-          <p class="text-sm font-medium text-gray-600 dark:text-gray-400">Encrypted Output:</p>
+          <p class="text-sm font-medium text-gray-600 dark:text-gray-400">Output:</p>
           <div
               class="bg-gray-100 dark:bg-gray-800 text-sm p-4 rounded-lg overflow-x-auto border border-gray-300 dark:border-gray-700 relative"
           >
@@ -186,15 +186,17 @@ export default {
         vault.encrypt(tempSecret, this.vaultPassword).then((encrypted) => {
           this.output = encrypted;
           toast.success("Secret encrypted successfully!");
+        }).catch((reason) => {
+          toast.error(`An error occurred while encrypting the secret: ${reason}`);
         });
       } else {  // No Ansible header, must be something to encrypt
         vault.decrypt(tempSecret, this.vaultPassword).then((decryptedBuffer) => {
           this.output = decryptedBuffer;
           toast.success("Secret decrypted successfully!");
         })
-            .catch((reason) => {
-              toast.error(`An error occurred while decrypting the secret: ${reason}`);
-            });
+          .catch((reason) => {
+            toast.error(`An error occurred while decrypting the secret: ${reason}`);
+          });
       }
     },
     copyToClipboard(content) {
