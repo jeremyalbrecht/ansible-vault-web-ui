@@ -1,0 +1,24 @@
+name: otel-exporter
+
+on:
+  workflow_run:
+    workflows: ['*']
+    types: [completed]
+
+env:
+  ACTION_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  WORKFLOW_RUN_ID: ${{ github.event.workflow_run.id }}
+  WORKFLOW_RUN_NAME: ${{ github.event.workflow_run.name }}
+  OTEL_EXPORTER_OTLP_ENDPOINT: "https://otlp-gateway-prod-eu-west-2.grafana.net/otlp"
+  OTEL_EXPORTER_OTLP_HEADERS: "Authorization=Basic ${{ secrets.GRAFANA_TOKEN }}"
+
+jobs:
+  new-relic-exporter:
+    name: new-relic-exporter
+    runs-on: ubuntu-latest
+    if: ${{ always() }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: new-relic-exporter
+        uses: newrelic-experimental/gha-new-relic-exporter@1.0.1
