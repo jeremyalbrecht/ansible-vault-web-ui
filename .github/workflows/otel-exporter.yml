@@ -5,6 +5,8 @@ on:
     workflows: ['*']
     types: [completed]
 
+permissions: read-all
+
 env:
   ACTION_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   WORKFLOW_RUN_ID: ${{ github.event.workflow_run.id }}
