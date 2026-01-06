@@ -9,18 +9,20 @@ permissions: read-all
 
 env:
   ACTION_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  OTEL_EXPORTER_OTLP_ENDPOINT: https://otlp-gateway-prod-eu-west-2.grafana.net/otlp
+  OTLP_PROTOCOL: HTTP
   WORKFLOW_RUN_ID: ${{ github.event.workflow_run.id }}
   WORKFLOW_RUN_NAME: ${{ github.event.workflow_run.name }}
-  OTEL_EXPORTER_OTLP_ENDPOINT: "https://otlp-gateway-prod-eu-west-2.grafana.net/otlp"
-  OTEL_EXPORTER_OTLP_HEADERS: Authorization=Basic ${{ secrets.GRAFANA_TOKEN }}
+  OTEL_EXPORTER_OTLP_HEADERS: Authorization=Api-Token ${{ secrets.GRAFANA_TOKEN }}
+  GITHUB_DEBUG: false
 
 jobs:
-  new-relic-exporter:
-    name: new-relic-exporter
+  OTLP-GitHubAction-Exporter :
+    name: OTLP GitHubAction Exporter
     runs-on: ubuntu-latest
     if: ${{ always() }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
-      - name: new-relic-exporter
-        uses: StephenGoodall/OTLP-GitHubAction-Exporter@v3.2.5
+        uses: actions/checkout@v4
+      - name: Run OTLP GitHubAction Exporter
+        uses: StephenGoodall/OTLP-GitHubAction-Exporter@v3
