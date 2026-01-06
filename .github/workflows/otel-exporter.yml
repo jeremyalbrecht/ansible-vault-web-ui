@@ -12,7 +12,7 @@ env:
   WORKFLOW_RUN_ID: ${{ github.event.workflow_run.id }}
   WORKFLOW_RUN_NAME: ${{ github.event.workflow_run.name }}
   OTEL_EXPORTER_OTLP_ENDPOINT: "https://otlp-gateway-prod-eu-west-2.grafana.net/otlp"
-  OTEL_EXPORTER_OTLP_HEADERS: "Authorization=Basic ${{ secrets.GRAFANA_TOKEN }}"
+  OTEL_EXPORTER_OTLP_HEADERS: Authorization=Basic ${{ secrets.GRAFANA_TOKEN }}
 
 jobs:
   new-relic-exporter:
