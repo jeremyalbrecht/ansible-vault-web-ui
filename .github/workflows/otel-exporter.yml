@@ -21,4 +21,4 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
       - name: new-relic-exporter
-        uses: StephenGoodall/OTLP-GitHubAction-Exporter@3.2.5
+        uses: StephenGoodall/OTLP-GitHubAction-Exporter@v3.2.5
